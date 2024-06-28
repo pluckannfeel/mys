@@ -96,28 +96,16 @@ WSGI_APPLICATION = "mys.wsgi.application"
 #     }
 # }
 
-# AMAZON RDS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'mys_cms_db',
         'USER': 'postgres',
-        'PASSWORD': 'ewsadmin',
-        'HOST': 'ews-db-instance.c3lg0nyhnf4y.ap-northeast-1.rds.amazonaws.com',
+        'PASSWORD': 'admin',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'mys_cms_db',
-#         'USER': 'postgres',
-#         'PASSWORD': 'admin',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
 
 
 # Password validation
