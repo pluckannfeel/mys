@@ -1,0 +1,22 @@
+{% load wagtailimages_tags wagtailcore_tags %}
+
+<div class="slogan-section">
+  <div class="slogan-top-image">
+    {% image self.top_image original as top_image %}
+    <img
+      src="{{ top_image.url }}"
+      alt="{{ self.title }}"
+      class="responsive-image"
+    />
+  </div>
+  <h2 class="slogan-title">{{ self.title }}</h2>
+  <div class="slogan-body">{{ self.body|richtext }}</div>
+  <div class="slogan-bottom-image">
+    {% image self.bottom_image original as bottom_image %}
+    <img
+      src="{{ bottom_image.url }}"
+      alt="{{ self.title }}"
+      class="responsive-image"
+    />
+  </div>
+</div>

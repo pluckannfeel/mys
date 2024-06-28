@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+wagtail = "*"
+psycopg2-binary = "*"
+wagtail-localize = "*"
+boto3 = "*"
+django-storages = "*"
+python-decouple = "*"
+gunicorn = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"

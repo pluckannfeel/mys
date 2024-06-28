@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags i18n %}
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'css/blog.css' %}" />
+{% endblock %}
+{% block content %}
+  <div class="jumbotron">
+    <!-- {% image jumbotron_image original as jumbotron_img %}  -->
+    {% image self.header_image original as jumbotron_img %}
+    <img src="{{ jumbotron_img.url }}" alt="{{ self.page_title_en }}" class="jumbotron-image"/>
+  </div>
+  <div class="blog-container">
+    <div class="blog-post">
+      <div class="breadcrumb">
+        <a href="{{ home_page.url }}">{{ home_page.title }}</a> 
+        <i class="breadcrumb-sign fas fa-chevron-right"></i>
+        <a href="{{ parent_page.url }}">{{ parent_page.title }}</a>
+        <i class="breadcrumb-sign fas fa-chevron-right"></i>
+        <span>{{ self.title }}</span>
+      </div>
+
+      <p class="post-date"><i class="fas fa-clock"></i> {{ self.date|date:"Y年m月d日" }} | 
+        {% for category in self.categories.all %}
+          {{ category.name }}{% if not forloop.last %}, {% endif %}
+        {% empty %}
+          No categories
+        {% endfor %}
+      </p>
+
+      <h1 class="post-title">{{ self.title }}</h1>
+      {% image self.header_image fill-500x333 as header_img %}
+      <img src="{{ header_img.url }}" alt="{{ self.title }}" class="header-image"/>
+      
+      <div class="post-body">{{ self.body|richtext }}</div>
+    </div>
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h3>Category</h3>
+      </div>
+      <div class="categories-list">
+        <ul>
+          {% for category in categories %}
+            <li><a href="{% pageurl parent_page %}?category={{ category.id }}">{{ category.name }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="sidebar-header">
+        <h3>Recent Posts</h3>
+      </div>
+      <div class="recent-posts">
+        <ul>
+          {% for post in recent_posts %}
+            {% if post != self %}
+              <li>
+                <a href="{{ post.url }}">
+                  {% image post.header_image fill-100x100 as thumb_img %}
+                  <img src="{{ thumb_img.url }}" alt="{{ post.title }}" class="thumbnail"/>
+                  <span>{{ post.title }}</span>
+                </a>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    {% include_block footer %}
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      gsap.registerPlugin(ScrollTrigger);
+
+      // gsap.from(".jumbotron img", {
+      //   opacity: 0,
+      //   y: 20,
+      //   duration: 0.5,
+      //   scrollTrigger: {
+      //     trigger: ".jumbotron",
+      //     start: "top 80%",
+      //     toggleActions: "play none none none"
+      //   }
+      // });
+
+      gsap.from(".breadcrumb, .post-date, .post-title, .header-image, .post-body", {
+        opacity: 0,
+        y: 20,
+        duration: 0.5,
+        stagger: 0.2,
+        scrollTrigger: {
+          trigger: ".blog-post",
+          start: "top 80%",
+          toggleActions: "play none none none"
+        }
+      });
+
+      gsap.from(".sidebar-header, .categories-list ul li, .recent-posts ul li", {
+        opacity: 0,
+        y: 20,
+        duration: 0.5,
+        stagger: 0.2,
+        scrollTrigger: {
+          trigger: ".sidebar",
+          start: "top 80%",
+          toggleActions: "play none none none"
+        }
+      });
+    });
+  </script>
+{% endblock %}

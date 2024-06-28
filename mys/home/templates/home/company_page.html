@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags i18n %}
+
+{% block title %}
+{% if request.LANGUAGE_CODE == 'ja' %}
+    {{ self.company_title_ja }}
+{% else %}
+    {{ self.company_title_en }}
+{% endif %}
+{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/company.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+    {% image self.jumbotron_image original as jumbotron_img %}
+    <img src="{{ jumbotron_img.url }}" alt="{{ self.title }}" />
+</div>
+
+<div class="company-page">
+    <div class="company-section">
+        <h1>
+            {% if request.LANGUAGE_CODE == 'ja' %}
+                {{ self.company_title_ja }}
+            {% else %}
+                {{ self.company_title_en }}
+            {% endif %}
+        </h1>
+        <p>
+            {% if request.LANGUAGE_CODE == 'ja' %}
+                {{ self.company_introduction_ja|richtext }}
+            {% else %}
+                {{ self.company_introduction_en|richtext }}
+            {% endif %}
+        </p>
+        <div class="accent-line"></div>
+        <div class="company-gallery">
+            {% for photo in self.company_photos.all %}
+            <div class="company-gallery-photo">
+                {% image photo.photo original as img %}
+                <img src="{{ img.url }}" alt="Company Photo">
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="team-introduction">
+        <h2>
+            {% if request.LANGUAGE_CODE == 'ja' %}
+                {{ self.team_title_ja }}
+            {% else %}
+                {{ self.team_title_en }}
+            {% endif %}
+        </h2>
+        <div class="subtitle">
+            {% if request.LANGUAGE_CODE == 'ja' %}
+                {{ self.introduction_ja|richtext }}
+            {% else %}
+                {{ self.introduction_en|richtext }}
+            {% endif %}
+        </div>
+        <div class="accent-line"></div>
+        <div class="team-grid">
+            {% for member in self.team_members.all %}
+            <div class="team-member">
+                {% image member.photo original as img %}
+                {% image member.hover_photo original as hover_img %}
+                <div class="team-member-images">
+                    <img src="{{ img.url }}" alt="{{ member.name }}" class="team-member-img">
+                    <img src="{{ hover_img.url }}" alt="{{ member.name }}" class="team-member-hover-img">
+                </div>
+                <div class="team-member-info">
+                    <h3>{{ member.name }}</h3>
+                    <p>{{ member.role }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/ScrollTrigger.min.js"></script>
+<script>
+   document.addEventListener('DOMContentLoaded', function() {
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.from('.company-section h1', {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        ease: 'power2.out',
+        scrollTrigger: {
+            trigger: '.company-section h1',
+            start: 'top 80%',
+        }
+    });
+
+    gsap.from('.company-section p', {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        ease: 'power2.out',
+        delay: 0.2,
+        scrollTrigger: {
+            trigger: '.company-section p',
+            start: 'top 80%',
+        }
+    });
+
+    gsap.from('.company-gallery-photo', {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        ease: 'power2.out',
+        stagger: 0.2,
+        delay: 0.4,
+        scrollTrigger: {
+            trigger: '.company-gallery',
+            start: 'top 80%',
+        }
+    });
+
+    gsap.from('.introduction h2', {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        ease: 'power2.out',
+        delay: 0.6,
+        scrollTrigger: {
+            trigger: '.introduction h2',
+            start: 'top 80%',
+        }
+    });
+
+    gsap.from('.team-introduction .subtitle', {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        ease: 'power2.out',
+        delay: 0.8,
+        // scrollTrigger: {
+        //     trigger: '.team-introduction .subtitle',
+        //     start: 'top 80%',
+        // }
+    });
+
+    gsap.from('.team-member', {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        ease: 'power2.out',
+        stagger: 0.2,
+        scrollTrigger: {
+            trigger: '.team-grid',
+            start: 'top 80%',
+        }
+    });
+
+    document.querySelectorAll('.team-member').forEach(member => {
+        const img = member.querySelector('.team-member-img');
+        const hoverImg = member.querySelector('.team-member-hover-img');
+
+        gsap.set(hoverImg, { opacity: 0 });
+
+        member.addEventListener('mouseenter', function() {
+            gsap.to(img, { opacity: 0, duration: 0.15, ease: 'power2.inOut' });
+            gsap.to(hoverImg, { opacity: 1, duration: 0.15, ease: 'power2.inOut' });
+        });
+
+        member.addEventListener('mouseleave', function() {
+            gsap.to(img, { opacity: 1, duration: 0.15, ease: 'power2.inOut' });
+            gsap.to(hoverImg, { opacity: 0, duration: 0.15, ease: 'power2.inOut' });
+        });
+    });
+});
+</script>
+{% endblock %}

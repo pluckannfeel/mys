@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags i18n %}
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'css/blog.css' %}" />
+  
+{% endblock %}
+{% block content %}
+  <div class="jumbotron">
+    {% image self.jumbotron_image original as jumbotron_img %}
+    <img src="{{ jumbotron_img.url }}" alt="{{ self.page_title_en }}" class="jumbotron-image"/>
+  </div>
+  <div class="blog-index-page">
+    <div class="breadcrumb">
+      <a href="{{ home_page.url }}">{{ home_page.title }}</a> 
+      <i class="breadcrumb-sign fas fa-chevron-right"></i>
+      <span>{{ self.title }}</span>
+    </div>
+    <div class="title-section">
+      <h1>{{ self.title }}</h1>
+      <div class="intro">{{ self.intro|richtext }}</div>
+      <div class="accent-line"></div>
+    </div>
+    <div class="categories">
+      {% for category in categories %}
+        <a href="{% pageurl self %}?category={{ category.id }}">{{ category.name }}</a>
+      {% endfor %}
+    </div>
+    <div class="blog-grid">
+      {% for post in posts %}
+      <div class="blog-item">
+          <a href="{{ post.url }}">
+              {% image post.header_image fill-500x333 as img %}
+              <img src="{{ img.url }}" alt="{{ post.title }}">
+          </a>
+          <div class="blog-item-content">
+              <p class="post-date"><i class="fas fa-clock"></i> {{ post.date|date:"Y年m月d日" }} |
+                {% for category in post.categories.all %}
+                {{ category.name }}{% if not forloop.last %}, {% endif %}
+                {% empty %}
+                No categories
+                {% endfor %}
+              </p>
+              <a href="{{ post.url }}">
+                <h2>{{ post.title }}</h2>
+              </a>
+          </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="pagination">
+      {% if posts.has_previous %}
+      <a href="?page={{ posts.previous_page_number }}">&laquo; Previous</a>
+      {% endif %}
+      {% if posts.has_next %}
+      <a href="?page={{ posts.next_page_number }}">Next &raquo;</a>
+      {% endif %}
+    </div>
+  </div>
+  <div class="footer">
+    {% include_block footer %}
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      gsap.registerPlugin(ScrollTrigger);
+
+      // gsap.from(".jumbotron img", {
+      //   opacity: 0,
+      //   y: 20,
+      //   duration: 0.5,
+      //   scrollTrigger: {
+      //     trigger: ".jumbotron",
+      //     start: "top 90%",
+      //     toggleActions: "play none none none"
+      //   }
+      // });
+
+      gsap.from(".breadcrumb, .title-section h1, .intro, .accent-line", {
+        opacity: 0,
+        y: 20,
+        duration: 0.5,
+        stagger: 0.2,
+        scrollTrigger: {
+          trigger: ".title-section",
+          start: "top 90%",
+          toggleActions: "play none none none"
+        }
+      });
+
+      gsap.from(".categories a", {
+        opacity: 0,
+        y: 20,
+        duration: 0.5,
+        stagger: 0.2,
+        scrollTrigger: {
+          trigger: ".categories",
+          start: "top 90%",
+          toggleActions: "play none none none"
+        }
+      });
+
+      gsap.from(".blog-item", {
+        opacity: 0,
+        y: 20,
+        duration: 0.5,
+        stagger: 0.2,
+        scrollTrigger: {
+          trigger: ".blog-grid",
+          start: "top 90%",
+          toggleActions: "play none none none"
+        }
+      });
+
+      gsap.from(".pagination a", {
+        opacity: 0,
+        y: 20,
+        duration: 0.5,
+        stagger: 0.2,
+        scrollTrigger: {
+          trigger: ".pagination",
+          start: "top 90%",
+          toggleActions: "play none none none"
+        }
+      });
+    });
+  </script>
+{% endblock %}

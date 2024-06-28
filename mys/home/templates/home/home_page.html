@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags i18n %}
+
+{% block title %}
+{{ self.title }}
+{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+<!-- Add additional head content specific to this page -->
+{% endblock %}
+
+{% block content %}
+<!-- Carousel -->
+<div class="carousel">
+  {% for block in self.carousel %} {{ block }} {% endfor %}
+</div>
+
+<!-- Sub Menu Section -->
+<div class="sub-menu-container">
+  {% for section in self.sub_menu_sections %} {{ section }} {% endfor %}
+</div>
+
+<!-- Slogan Section -->
+<div class="slogan-container">
+  {% for slogan in self.slogan %} {{ slogan }} {% endfor %}
+</div>
+
+<!-- Combined Campaign and News Section -->
+<div class="campaign-news-container">
+  <!-- Campaign Section -->
+  <div class="campaign-container">
+    {% for campaign in self.campaigns %} {{ campaign }} {% endfor %}
+  </div>
+
+  <!-- News Section -->
+  <div class="news-container">
+    <div class="news-header">
+      <h2>NEWS</h2>
+      <a href="{% pageurl news_page %}" class="view-all-button">お知らせ一覧</a>
+    </div>
+    <ul class="news-list">
+      {% for news_item in news_page.news_items %}
+      {{ news_item }}
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<!-- Blog Section -->
+<div class="blog-container">
+  <div class="blog-header">
+    <h2>BLOG</h2>
+    <a href="{% pageurl blog_page %}" class="blog-link">お知らせ一覧</a>
+  </div>
+  <div class="blog-grid">
+    {% for post in blog_items %}
+    <div class="blog-item">
+      <a href="{{ post.url }}">
+        {% image post.header_image fill-500x333 as img %}
+        <img src="{{ img.url }}" alt="{{ post.title }}">
+      </a>
+      <div class="blog-item-content">
+        <p class="post-date"><i class="fas fa-clock"></i> {{ post.date|date:"Y年m月d日" }} |
+          {% for category in post.categories.all %}
+          {{ category.name }}{% if not forloop.last %}, {% endif %}
+          {% empty %}
+          No categories
+          {% endfor %}
+        </p>
+        <a href="{{ post.url }}">
+          <h2>{{ post.title }}</h2>
+        </a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/ScrollTrigger.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.from('.carousel > *', {
+      opacity: 0,
+      y: 50,
+      duration: 1,
+      ease: 'power2.out',
+      stagger: 0.2
+    });
+    
+
+    gsap.from('.sub-menu-section', {
+      opacity: 0,
+      y: 50,
+      duration: 1,
+      ease: 'power2.out',
+      stagger: 0.2,
+      scrollTrigger: {
+        trigger: '.sub-menu-section',
+        start: 'top 80%',
+        toggleActions: 'play none none none'
+      }
+    });
+
+    gsap.from('.slogan-section', {
+      opacity: 0,
+      y: 50,
+      duration: 1,
+      ease: 'power2.out',
+      stagger: 0.2,
+      scrollTrigger: {
+        trigger: '.slogan-section',
+        start: 'top 80%',
+        toggleActions: 'play none none none'
+      }
+    });
+
+    gsap.from('.campaign', {
+      opacity: 0,
+      y: 50,
+      duration: 1,
+      ease: 'power2.out',
+      stagger: 0.2,
+      scrollTrigger: {
+        trigger: '.campaign',
+        start: 'top 80%',
+        toggleActions: 'play none none none'
+      }
+    });
+
+    gsap.from('.news-header', {
+      opacity: 0,
+      y: 50,
+      duration: 1,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.news-header',
+        start: 'top 80%',
+        toggleActions: 'play none none none'
+      }
+    });
+
+    gsap.from('.news-item', {
+      opacity: 0,
+      y: 50,
+      duration: 1,
+      stagger: 0.2,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.news-item',
+        start: 'top 80%',
+        toggleActions: 'play none none none'
+      }
+    });
+
+    gsap.from('.blog-item', {
+      opacity: 0,
+      y: 50,
+      duration: 1,
+      stagger: 0.2,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.blog-section',
+        start: 'top 80%',
+        toggleActions: 'play none none none'
+      }
+    });
+  });
+</script>
+{% endblock %}

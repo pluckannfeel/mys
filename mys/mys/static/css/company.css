@@ -1,0 +1,236 @@
+/* General Page Styles */
+.company-page {
+  padding: 20px;
+  margin: 0 auto;
+  max-width: 1200px;
+  margin-bottom: 80px;
+  color: #253858;
+}
+
+.jumbotron {
+  width: 100%;
+  height: 400px;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.jumbotron img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 30%;
+}
+
+/* Company Section Styles */
+.company-section {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.company-section h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.company-section p {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.accent-line {
+  width: 60px;
+  height: 4px;
+  background-color: #9a2d7c;
+  margin: 20px auto;
+}
+
+/* Company Gallery Styles */
+.company-gallery {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: 200px;
+  grid-gap: 20px;
+  margin-bottom: 40px;
+}
+
+.company-gallery-photo {
+  position: relative;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+.company-gallery-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+/* Create varying sizes for the photos */
+.company-gallery-photo:nth-child(1) {
+  grid-column: span 4;
+  grid-row: span 2;
+}
+
+.company-gallery-photo:nth-child(2) {
+  grid-column: span 2;
+  grid-row: span 1;
+}
+
+.company-gallery-photo:nth-child(3) {
+  grid-column: span 2;
+  grid-row: span 1;
+}
+
+.company-gallery-photo:nth-child(4) {
+  grid-column: span 3;
+  grid-row: span 2;
+}
+
+.company-gallery-photo:nth-child(5) {
+  grid-column: span 3;
+  grid-row: span 1;
+}
+
+.company-gallery-photo:nth-child(6) {
+  grid-column: span 2;
+  grid-row: span 1;
+}
+
+.company-gallery-photo:nth-child(7) {
+  grid-column: span 2;
+  grid-row: span 1;
+}
+
+@media (max-width: 1024px) {
+  .company-gallery {
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 150px;
+  }
+
+  .company-gallery-photo:nth-child(1) {
+    grid-column: span 4;
+    grid-row: span 2;
+  }
+
+  .company-gallery-photo:nth-child(2),
+  .company-gallery-photo:nth-child(3) {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+
+  .company-gallery-photo:nth-child(4) {
+    grid-column: span 4;
+    grid-row: span 2;
+  }
+
+  .company-gallery-photo:nth-child(5),
+  .company-gallery-photo:nth-child(6),
+  .company-gallery-photo:nth-child(7) {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .company-gallery {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .company-gallery-photo {
+    display: none;
+  }
+
+  .company-gallery-photo:first-child {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* Introduction Section Styles */
+.team-introduction {
+  margin-top: 100px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.team-introduction h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.team-introduction .subtitle {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.team-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.team-member {
+  position: relative;
+  width: calc(33.333% - 20px);
+  text-align: center;
+  transform: translateY(50px); /* Start slightly down */
+}
+
+.team-member-images {
+  position: relative;
+  overflow: hidden;
+}
+
+.team-member img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  transition: transform 0.6s;
+}
+
+.team-member-hover-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.6s;
+}
+
+.team-member-info {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.team-member-info h3,
+.team-member-info p {
+  margin: 0;
+}
+
+.team-member-info p {
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .team-member {
+    width: 100%; /* Full width on mobile */
+  }
+  .team-member img, .team-member-hover-img {
+    width: 80%; /* Reduce image size on mobile */
+  }
+  .team-member-info h3 {
+    font-size: 1.2rem; /* Reduce font size on mobile */
+  }
+  .team-member-info p {
+    font-size: 0.9rem; /* Reduce font size on mobile */
+  }
+}

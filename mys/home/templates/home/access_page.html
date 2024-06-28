@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags i18n %}
+
+{% block title %}
+{% if request.LANGUAGE_CODE == 'ja' %}
+    {{ self.page_title_ja }}
+{% else %}
+    {{ self.page_title_en }}
+{% endif %}
+{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/access.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+    {% image self.jumbotron_image fill-2180x1080 as jumbotron_img %}
+    <img src="{{ jumbotron_img.url }}" alt="{{ self.page_title_en }}">
+</div>
+
+<div class="access-page">
+    
+    <div class="breadcrumb">
+        <a href="{% pageurl home_page %}">Home</a> <i class="breadcrumb-sign fas fa-chevron-right"></i>
+        <span>{{ self.title }}</span>
+        <!-- <span>{% if request.LANGUAGE_CODE == 'ja' %}{{ self.page_title_ja }}{% else %}{{ self.page_title_en }}{% endif %}</span> -->
+    </div>
+    <div class="title-section">
+        <h1>{% if request.LANGUAGE_CODE == 'ja' %}{{ self.page_title_ja }}{% else %}{{ self.page_title_en }}{% endif %}</h1>
+        <p>{% if request.LANGUAGE_CODE == 'ja' %}{{ self.subtitle_ja|richtext }}{% else %}{{ self.subtitle_en|richtext }}{% endif %}</p>
+        <div class="accent-line"></div>
+    </div>
+    <div class="gallery">
+        {% for block in self.gallery %}
+            {% if forloop.first %}
+                <div class="gallery-photo large">
+                    {% image block.value original as img %}
+                    <img src="{{ img.url }}" alt="Gallery Photo">
+                </div>
+            {% else %}
+                <div class="gallery-photo small">
+                    {% image block.value original as img %}
+                    <img src="{{ img.url }}" alt="Gallery Photo">
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="map-section">
+        <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3240.2070170183517!2d139.63552351550747!3d35.450496851427886!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60185c04a499ba9f%3A0xeef1e4b4b3b6f147!2s4-ch%C5%8Dme-20-2%20Kaigand%C5%8Dri%2C%20Naka%20Ward%2C%20Yokohama%2C%20Kanagawa%20231-0002%2C%20Japan!5e0!3m2!1sen!2sus!4v1623000427430!5m2!1sen!2sus"
+            width="100%"
+            height="400"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy">
+        </iframe>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/ScrollTrigger.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.from('.title-section h1', {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            ease: 'power2.out'
+        });
+
+        gsap.from('.title-section p', {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            ease: 'power2.out',
+            delay: 0.2
+        });
+
+        gsap.from('.gallery .gallery-photo', {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            ease: 'power2.out',
+            stagger: 0.2,
+            delay: 0.4
+        });
+
+        gsap.from('.map-section', {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            ease: 'power2.out',
+            delay: 0.6
+        });
+    })
+</script>
+{% endblock %}

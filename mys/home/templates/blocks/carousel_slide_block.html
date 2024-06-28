@@ -1,0 +1,9 @@
+{% load wagtailimages_tags %}
+<div class="carousel-slide">
+  <div class="image-wrapper" style="height: 60vh">
+    {% image self.image fill-1600x700 class="responsive-image" %}
+  </div>
+  {% if self.caption %}
+  <div class="carousel-caption">{{ self.caption }}</div>
+  {% endif %}
+</div>

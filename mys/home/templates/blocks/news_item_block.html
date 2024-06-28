@@ -1,0 +1,9 @@
+{% load wagtailcore_tags %}
+<li class="news-item">
+  <p class="news-date">{{ self.date }}</p>
+  {% if self.link %}
+    <a href="{% pageurl self.link %}">{{ self.title }}</a>
+  {% else %}
+    <span>{{ self.title }}</span>
+  {% endif %}
+</li>

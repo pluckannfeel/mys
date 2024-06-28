@@ -1,0 +1,12 @@
+{% load wagtailimages_tags wagtailcore_tags %}
+<div class="campaign">
+  {% image self.image original as campaign_image %}
+  <div
+    class="campaign-image"
+    style="background-image: url('{{ campaign_image.url }}');"
+  ></div>
+
+  <div class="campaign-details">
+    <p>{{ self.details }}</p>
+  </div>
+</div>

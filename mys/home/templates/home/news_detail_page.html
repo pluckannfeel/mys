@@ -1,0 +1,97 @@
+{% load static wagtailcore_tags wagtailimages_tags i18n %}
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ news_item.title }}</title>
+    <link rel="stylesheet" href="{% static 'css/mys.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/news.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header-scroll">
+      <div class="logo-nav-container">
+        <div class="logo-container">
+          <img src="{% static 'images/mys_website_logo.png' %}" alt="{% trans
+          "Make You Smile Co., Ltd." %}" class="logo">
+        </div>
+        <nav class="desktop-nav">
+          <ul>
+            <li><a href="{% pageurl home_page %}">{% trans "HOME" %}</a></li>
+            <li><a href="{% pageurl company_page %}">{% trans "COMPANY" %}</a></li>
+        <li><a href="#">{% trans "BUSINESS" %}</a></li>
+        <li><a href="{% pageurl blog_page %}">{% trans "BLOG" %}</a></li>
+        <li><a href="{% pageurl access_page %}">{% trans "ACCESS" %}</a></li>
+        <li><a href="#">{% trans "CONTACT" %}</a></li>
+          </ul>
+        </nav>
+        <nav class="mobile-nav">
+          <div class="mobile-header">
+            <img src="{% static 'images/mys_website_logo.png' %}" alt="{% trans
+            "Make You Smile Co., Ltd." %}" class="logo mobile-logo">
+            <span class="mobile-menu-icon" onclick="toggleMobileMenu()"
+              >&#9776;</span
+            >
+          </div>
+          <ul class="mobile-menu fade-in-delayed">
+            <li><a href="{% pageurl home_page %}">{% trans "HOME" %}</a></li>
+            <li><a href="{% pageurl company_page %}">{% trans "COMPANY" %}</a></li>
+        <li><a href="#">{% trans "BUSINESS" %}</a></li>
+        <li><a href="{% pageurl blog_page %}">{% trans "BLOG" %}</a></li>
+        <li><a href="{% pageurl access_page %}">{% trans "ACCESS" %}</a></li>
+        <li><a href="#">{% trans "CONTACT" %}</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Jumbotron -->
+    <div class="jumbotron">
+      {% image news_item.image fill-1600x400 as jumbotron_img %}
+      <img src="{{ jumbotron_img.url }}" alt="{{ news_item.title }}" />
+    </div>
+
+    <!-- Breadcrumb -->
+    <div class="content">
+      <div class="breadcrumb">
+        <a href="{% pageurl home_page %}">Home</a> <i class="breadcrumb-sign fas fa-chevron-right"></i>
+        <a href="{% pageurl news_page %}">News</a> <i class="breadcrumb-sign fas fa-chevron-right"></i>
+        <span>{{ news_item.title }}</span>
+      </div>
+    </div>
+
+    <!-- News Content -->
+    <div class="news-content">
+      <h2>{{ news_item.title }}</h2>
+      <span class="news-date">
+        <i class="fas fa-clock"></i> {{ news_item.date|date:"Y年m月d日" }}
+      </span>
+      <div class="news-body">{{ news_item.body|richtext }}</div>
+    </div>
+
+    <!-- Render the footer block -->
+    {% for block in footer %} {% include_block block %} {% endfor %}
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      function toggleMobileMenu() {
+        document.querySelector(".mobile-menu").classList.toggle("open");
+      }
+
+      window.addEventListener("scroll", function () {
+        const header = document.querySelector("header");
+        if (window.scrollY > 100) {
+          header.classList.add("header-scroll");
+        } else {
+          header.classList.remove("header-scroll");
+        }
+      });
+    </script>
+  </body>
+</html>

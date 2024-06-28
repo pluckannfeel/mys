@@ -1,0 +1,146 @@
+{% load static wagtailcore_tags i18n %}
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/mys.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    {% block extra_head %}{% endblock %}
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="logo-container">
+        <img src="{% static 'images/mys_website_logo.png' %}" alt="{% trans
+        "Make You Smile Co., Ltd." %}" class="logo">
+      </div>
+      <nav class="desktop-nav">
+        <ul>
+          <li><a href="{% pageurl home_page %}">{% trans "HOME" %}</a></li>
+          <li>
+            <a href="{% pageurl company_page %}">{% trans "COMPANY" %}</a>
+          </li>
+          <li><a href="#">{% trans "BUSINESS" %}</a></li>
+          <li><a href="{% pageurl blog_page %}">{% trans "BLOG" %}</a></li>
+          <li><a href="{% pageurl access_page %}">{% trans "ACCESS" %}</a></li>
+          <li><a href="#">{% trans "CONTACT" %}</a></li>
+        </ul>
+      </nav>
+      <nav class="mobile-nav">
+        <div class="mobile-header">
+          <span class="mobile-title"></span>
+          <span class="mobile-menu-icon" onclick="toggleMobileMenu()"
+            >&#9776;</span
+          >
+        </div>
+        <ul class="mobile-menu">
+          <li><a href="{% pageurl home_page %}">{% trans "HOME" %}</a></li>
+          <li>
+            <a href="{% pageurl company_page %}">{% trans "COMPANY" %}</a>
+          </li>
+          <li><a href="#">{% trans "BUSINESS" %}</a></li>
+          <li><a href="{% pageurl blog_page %}">{% trans "BLOG" %}</a></li>
+          <li><a href="{% pageurl access_page %}">{% trans "ACCESS" %}</a></li>
+          <li><a href="#">{% trans "CONTACT" %}</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    {% block content %}{% endblock %}
+
+    <!-- Render the footer block -->
+    {% for block in self.footer %} {% include_block block %} {% endfor %}
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/ScrollTrigger.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $(".carousel").slick({
+          autoplay: true,
+          autoplaySpeed: 5000,
+          draggable: true,
+          swipeToSlide: true,
+          dots: true,
+          infinite: true,
+          speed: 1000,
+          cssEase: "linear",
+          pauseOnHover: false,
+          pauseOnFocus: false,
+          fade: true,
+        });
+      });
+
+      function toggleMobileMenu() {
+        document.querySelector(".mobile-menu").classList.toggle("open");
+      }
+
+      window.addEventListener("scroll", function () {
+        const header = document.querySelector("header");
+        if (window.scrollY > 75) {
+          header.classList.add("header-scroll");
+        } else {
+          header.classList.remove("header-scroll");
+        }
+      });
+
+      document.addEventListener("DOMContentLoaded", function() {
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.from("header", {
+          opacity: 0,
+          y: -20,
+          duration: 0.3,
+          ease: "power2.out"
+        });
+
+        gsap.from(".desktop-nav ul li", {
+          opacity: 0,
+          y: 20,
+          duration: 0.3,
+          stagger: 0.1,
+          ease: "power2.out"
+        });
+
+        // gsap.from(".mobile-menu ul li", {
+        //   opacity: 0,
+        //   y: 20,
+        //   duration: 0.3,
+        //   stagger: 0.1,
+        //   ease: "power2.out"
+        // });
+
+        gsap.from(".logo-container img", {
+          opacity: 0,
+          y: 20,
+          duration: 0.3,
+          ease: "power2.out"
+        });
+
+        gsap.from("footer .footer-top", {
+          opacity: 0,
+          y: 20,
+          duration: 0.3,
+          ease: "power2.out"
+        });
+      });
+    </script>
+    {% block extra_script %}{% endblock %}
+  </body>
+</html>

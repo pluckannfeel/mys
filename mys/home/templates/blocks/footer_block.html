@@ -1,0 +1,29 @@
+{% load wagtailimages_tags wagtailcore_tags i18n %}
+<footer>
+  <div class="footer-top">
+    <div class="footer-logo">{% image value.logo original %}</div>
+    <div class="footer-nav">
+      <ul>
+        <li><a href="{% pageurl home_page %}">{% trans "HOME" %}</a></li>
+        <li><a href="{% pageurl company_page %}">{% trans "COMPANY" %}</a></li>
+        <li><a href="#">{% trans "BUSINESS" %}</a></li>
+        <li><a href="{% pageurl blog_page %}">{% trans "BLOG" %}</a></li>
+        <li><a href="{% pageurl access_page %}">{% trans "ACCESS" %}</a></li>
+        <li><a href="#">{% trans "CONTACT" %}</a></li>
+      </ul>
+    </div>
+    <div class="footer-address">{{ value.address|richtext }}</div>
+  </div>
+  <div class="footer-bottom">
+    <p>{{ value.copyright|richtext }}</p>
+  </div>
+  <div class="footer-socials">
+    <ul>
+      {% for social in value.socials %}
+      <li>
+        <a href="{{ social.url }}"><i class="{{ social.icon }}"></i></a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</footer>

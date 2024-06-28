@@ -1,0 +1,12 @@
+{% load wagtailimages_tags %}
+
+<div class="sub-menu-section">
+    <div class="image-background">
+        {% image self.image fill-300x300 as sub_menu_img %}
+        <img src="{{ sub_menu_img.url }}" alt="{{ self.title }}" class="sub-menu-image" />
+    </div>
+    <div class="sub-menu-content">
+        <h2 class="sub-menu-title">{{ self.title }}</h2>
+        <p class="sub-menu-body">{{ self.body }}</p>
+    </div>
+</div>

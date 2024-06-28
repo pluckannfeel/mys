@@ -1,0 +1,13 @@
+{
+    "AWSEBDockerrunVersion": 3,
+    "Image": {
+      "Name": "304035977295.dkr.ecr.ap-northeast-1.amazonaws.com/mys-cms:latest",
+      "Update": "true"
+    },
+    "Ports": [
+      {
+        "ContainerPort": "8000"
+      }
+    ]
+  }
+  

@@ -1,0 +1,135 @@
+{% load static wagtailcore_tags wagtailimages_tags i18n %}
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ self.title }}</title>
+    <link rel="stylesheet" href="{% static 'css/mys.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/news.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header-scroll">
+      <div class="logo-nav-container">
+        <div class="logo-container">
+          <img src="{% static 'images/mys_website_logo.png' %}" alt="{% trans
+          "Make You Smile Co., Ltd." %}" class="logo">
+        </div>
+        <nav class="desktop-nav">
+          <ul>
+            <li><a href="{% pageurl home_page %}">{% trans "HOME" %}</a></li>
+            <li>
+              <a href="{% pageurl company_page %}">{% trans "COMPANY" %}</a>
+            </li>
+            <li><a href="#">{% trans "BUSINESS" %}</a></li>
+            <li><a href="{% pageurl blog_page %}">{% trans "BLOG" %}</a></li>
+            <li>
+              <a href="{% pageurl access_page %}">{% trans "ACCESS" %}</a>
+            </li>
+            <li><a href="#">{% trans "CONTACT" %}</a></li>
+          </ul>
+        </nav>
+        <nav class="mobile-nav">
+          <div class="mobile-header">
+            <img src="{% static 'images/mys_website_logo.png' %}" alt="{% trans
+            "Make You Smile Co., Ltd." %}" class="logo mobile-logo">
+            <span class="mobile-menu-icon" onclick="toggleMobileMenu()"
+              >&#9776;</span
+            >
+          </div>
+          <ul class="mobile-menu fade-in-delayed">
+            <li><a href="{% pageurl home_page %}">{% trans "HOME" %}</a></li>
+            <li>
+              <a href="{% pageurl company_page %}">{% trans "COMPANY" %}</a>
+            </li>
+            <li><a href="#">{% trans "BUSINESS" %}</a></li>
+            <li><a href="{% pageurl blog_page %}">{% trans "BLOG" %}</a></li>
+            <li>
+              <a href="{% pageurl access_page %}">{% trans "ACCESS" %}</a>
+            </li>
+            <li><a href="#">{% trans "CONTACT" %}</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Jumbotron -->
+    <div class="jumbotron">
+      {% image self.jumbotron_image original as jumbotron_img %}
+      <img src="{{ jumbotron_img.url }}" alt="{{ self.title }}" />
+    </div>
+
+    <!-- Breadcrumb -->
+    <div class="content">
+      <div class="breadcrumb">
+        <a href="{% pageurl home_page %}">Home</a>
+        <i class="breadcrumb-sign fas fa-chevron-right"></i>
+        <span>{{ self.title }}</span>
+      </div>
+    </div>
+
+    <!-- News Content -->
+    <div class="news-content-container">
+      <div class="news-list">
+        <h2>{{ self.title }}</h2>
+        <div>{{ self.intro|richtext }}</div>
+        <ul>
+          {% for block in self.news_items %} {% if block.block_type ==
+          'news_item' %}
+          <li>
+            {% image block.value.image fill-100x100 class="news-thumb" %}
+            <div class="news-info">
+              <a href="{% pageurl self %}{{ block.value.slug }}/"
+                >{{ block.value.title }}</a
+              >
+              <p>
+                <i class="fas fa-clock"></i> {{
+                block.value.date|date:"Y年m月d日" }}
+              </p>
+            </div>
+          </li>
+          {% endif %} {% endfor %}
+        </ul>
+      </div>
+      <aside class="sidebar">
+        <div class="slogan-photo">
+          {% image self.slogan_photo original as slogan_img %}
+          <img src="{{ slogan_img.url }}" alt="Slogan Photo" />
+        </div>
+        <div class="blog-categories">
+          <h3>{% trans "Blog Categories" %}</h3>
+          <!-- Blog categories will be listed here -->
+        </div>
+        <div class="recent-articles">
+          <h3>{% trans "Recent Articles" %}</h3>
+          <!-- Recent articles will be listed here, max 5 -->
+        </div>
+      </aside>
+    </div>
+
+    <!-- Footer -->
+    {% for block in self.footer %} {% include_block block %} {% endfor %}
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      function toggleMobileMenu() {
+        document.querySelector(".mobile-menu").classList.toggle("open");
+      }
+
+      window.addEventListener("scroll", function () {
+        const header = document.querySelector("header");
+        if (window.scrollY > 100) {
+          header.classList.add("header-scroll");
+        } else {
+          header.classList.remove("header-scroll");
+        }
+      });
+    </script>
+  </body>
+</html>
